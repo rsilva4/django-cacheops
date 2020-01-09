@@ -86,10 +86,10 @@ def model_profile(model):
 
     model_profiles = prepare_profiles()
 
-    app = model._meta.app_label.lower()
-    model_name = model._meta.model_name
-    for guess in ('%s.%s' % (app, model_name), '%s.*' % app, '*.*'):
-        if guess in model_profiles:
-            return model_profiles[guess]
-    else:
-        return None
+    if model._meta.app_label:
+        app = model._meta.app_label.lower()
+        model_name = model._meta.model_name
+        for guess in ('%s.%s' % (app, model_name), '%s.*' % app, '*.*'):
+            if guess in model_profiles:
+                return model_profiles[guess]
+    return None
